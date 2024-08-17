@@ -17,3 +17,28 @@ from django.http import HttpResponse
 
 def home(request):
     return HttpResponse("Welcome to the Django Models project!")
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login, logout
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('home')  # Redirect to a home page or any other page after registration
+    else:
+        form = UserCreationForm()
+    return render(request, 'relationship_app/register.html', {'form': form})
+
+def login_view(request):
+    if request.method == 'POST':
+        # Handle login
+        pass
+    return render(request, 'relationship_app/login.html')
+
+def logout_view(request):
+    logout(request)
+    return render(request, 'relationship_app/logout.html')
