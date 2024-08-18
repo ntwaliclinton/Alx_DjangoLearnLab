@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import Book
-
+from django.contrib.auth.decorators import user_passes_test
+from django.shortcuts import render
 def list_books(request):
     books = Book.objects.all()
     return render(request, 'relationship_app/list_books.html', {'books': books})
@@ -17,8 +18,7 @@ from django.http import HttpResponse
 
 def home(request):
     return HttpResponse("Welcome to the Django Models project!")
-    
-from django.shortcuts import render, redirect
+
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, logout
 
@@ -42,3 +42,24 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return render(request, 'relationship_app/logout.html')
+
+def admin_check(user):
+    return user.userprofile.role == 'Admin'
+
+def librarian_check(user):
+    return user.userprofile.role == 'Librarian'
+
+def member_check(user):
+    return user.userprofile.role == 'Member'
+
+@user_passes_test(admin_check)
+def admin_view(request):
+    return render(request, 'relationship_app/admin_view.html')
+
+@user_passes_test(librarian_check)
+def librarian_view(request):
+    return render(request, 'relationship_app/librarian_view.html')
+
+@user_passes_test(member_check)
+def member_view(request):
+    return render(request, 'relationship_app/member_view.html')
