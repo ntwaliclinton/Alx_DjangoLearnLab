@@ -37,10 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bookshelf',
-    'advanced_features_and_security',
+    'bookshelf',   
 ]
-AUTH_USER_MODEL = 'advanced_features_and_security.CustomUser'
+AUTH_USER_MODEL = "bookshelf.CustomUser"
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
