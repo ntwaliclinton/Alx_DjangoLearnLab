@@ -36,14 +36,13 @@ class CustomUserManager(UserManager):
         return self.create_user(username, email, password, **extra_fields)
     # advanced_features_and_security/models.py
 
-
-class Post(models.Model):
+class Book(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
 
  # advanced_features_and_security/models.py
 # Custom permissions for Post model
-class Post(models.Model):
+class Book(models.Model):
     # ...
 
     class Meta:
