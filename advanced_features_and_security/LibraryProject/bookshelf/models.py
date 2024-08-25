@@ -2,12 +2,13 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.contrib.auth.models import UserManager
-
-class CustomUser(AbstractUser):
+from django.db import models
+class CustomUserManager(BaseUserManager):
     date_of_birth = models.DateField(null=True, blank=True)
     profile_photo = models.ImageField(upload_to='profile_photos/', null=True, blank=True)
 
-class CustomUserManager(BaseUserManager):
+   
+class CustomUserManager(UserManager):
     def create_user(self, username, email, password=None, **extra_fields):
         if not username:
             raise ValueError('Users must have a username')
@@ -33,3 +34,23 @@ class CustomUserManager(BaseUserManager):
             raise ValueError('Superuser must have is_staff=True.')
 
         return self.create_user(username, email, password, **extra_fields)
+    # advanced_features_and_security/models.py
+
+
+class Post(models.Model):
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+
+ # advanced_features_and_security/models.py
+# Custom permissions for Post model
+class Post(models.Model):
+    # ...
+
+    class Meta:
+        permissions = (
+            ('can_view', 'Can view post'),
+            ('can_create', 'Can create post'),
+            ('can_edit', 'Can edit post'),
+            ('can_delete', 'Can delete post'),
+        )
+        # These permissions are used to control access to Post instances
