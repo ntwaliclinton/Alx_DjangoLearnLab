@@ -23,3 +23,4 @@ def post_create_view(request):
         # create post logic
         pass
     return render(request, 'post_create.html')
+"book_list", "books"
