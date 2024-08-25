@@ -5,7 +5,7 @@ from .models import Post
 from django.shortcuts import render
 from .models import Book
 from .forms import BookForm
-
+from .forms import ExampleForm
 # advanced_features_and_security/views.py
 # Views that enforce permissions
 @permission_required('advanced_features_and_security.can_edit', raise_exception=True)
