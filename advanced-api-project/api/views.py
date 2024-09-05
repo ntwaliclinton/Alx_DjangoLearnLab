@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 
 # Add a BookFilter class for filtering options (if not added already)
 from django_filters import rest_framework as filters
