@@ -2,6 +2,8 @@ from rest_framework import serializers
 from .models import Author, Book
 import datetime
 
+# BookSerializer serializes the fields of the Book model.
+# Includes validation to ensure the publication year is valid.
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
@@ -12,7 +14,7 @@ class BookSerializer(serializers.ModelSerializer):
         if value > datetime.date.today().year:
             raise serializers.ValidationError("Publication year cannot be in the future.")
         return value
-
+# AuthorSerializer serializes the Author and nests the related books using the BookSerializer.
 class AuthorSerializer(serializers.ModelSerializer):
     # Nesting BookSerializer within AuthorSerializer
     books = BookSerializer(many=True, read_only=True)

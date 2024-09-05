@@ -1,8 +1,6 @@
 from django.db import models
 
-# Create your models here.
 # Author model represents a writer with a one-to-many relationship to Book
-
 class Author(models.Model):
     name = models.CharField(max_length=100)
 
@@ -16,3 +14,4 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+
