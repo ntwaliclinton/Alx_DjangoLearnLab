@@ -4,13 +4,37 @@ from .models import Book
 from .serializers import BookSerializer
 from rest_framework import status
 from rest_framework.response import Response
-from django_filters import rest_framework
+from rest_framework import viewsets
+from rest_framework.filters import SearchFilter, OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
+
+# Add a BookFilter class for filtering options (if not added already)
+from django_filters import rest_framework as filters
+
+class BookFilter(filters.FilterSet):
+    title = filters.CharFilter(lookup_expr='icontains')
+    author = filters.CharFilter(lookup_expr='icontains')
+    publication_year = filters.NumberFilter()
+class Meta:
+        model = Book
+        fields = ['title', 'author', 'publication_year']
 
 # List all books
-class BookListView(generics.ListAPIView):# Retrieve a list of all books.
+# BookListView using filtering, searching, and ordering
+class BookListView(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [AllowAny]  # Allow read-only access
+
+    # Adding filter, search, and ordering capabilities
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+
+    # Define filters and search fields
+    filterset_class = BookFilter
+    search_fields = ['title', 'author']
+
+    # Define ordering fields and default ordering
+    ordering_fields = ['title', 'publication_year']
+    ordering = ['title']  # Default ordering by title
 
 # Retrieve a single book by ID
 class BookDetailView(generics.RetrieveAPIView):
