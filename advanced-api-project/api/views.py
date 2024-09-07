@@ -29,8 +29,8 @@ class BookListView(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_class = BookFilter
    filters.OrderingFilter = ['title', 'author']
-    ordering_fields = ['title', 'publication_year']
     ordering = ['title']  # Default ordering by title
+   filters.SearchFilter = ['title', 'author']
 
     
 # Retrieve a single book by ID
