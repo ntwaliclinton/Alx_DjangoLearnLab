@@ -6,7 +6,7 @@ from .models import Book
 
 class BookAPITestCase(TestCase):
     def setUp(self):
-        self.client = APIClient()
+        self.client.login = APIClient()
         self.book_url = reverse('book-list')  # Replace 'book-list' with your URL name
         self.book_data = {
             'title': 'Test Book',
