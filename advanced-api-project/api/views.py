@@ -28,7 +28,7 @@ class BookListView(viewsets.ModelViewSet):
     serializer_class = BookSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_class = BookFilter
-    search_fields = ['title', 'author']
+   filters.OrderingFilter = ['title', 'author']
     ordering_fields = ['title', 'publication_year']
     ordering = ['title']  # Default ordering by title
 
