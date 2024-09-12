@@ -87,7 +87,21 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     else:
         form = CommentForm()
     return render(request, 'blog/add_comment.html', {'form': form})
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'blog/comment_form.html'
 
+    def form_valid(self, form):
+        # Get the post to which the comment will be added
+        post = get_object_or_404(Post, pk=self.kwargs['pk'])
+        form.instance.post = post
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        # Redirect to the post detail page after successful comment creation
+        return reverse_lazy('post-detail', kwargs={'pk': self.object.post.pk})
 class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Comment
     form_class = CommentForm
