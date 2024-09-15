@@ -15,6 +15,7 @@ from django.views.generic import UpdateView, DeleteView
 from .models import Post, Comment
 from .forms import CommentForm
 from django.db.models import Q
+from django.shortcuts import render
 from .models import Post
 from taggit.models import Tag
 # User Registration View
@@ -76,20 +77,12 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         post = self.get_object()
         return self.request.user == post.author  # Only allow the author to delete their post
     
-    def search(request):
-    query = request.GET.get('q')
-    results = Post.objects.filter(
-        Q(title__icontains=query) |
-        Q(content__icontains=query) |
-        Q(tags__name__icontains=query)
-    ).distinct()
-    return render(request, 'blog/search_results.html', {'results': results, 'query': query})
 def post_by_tag(request, tag):
     tag = get_object_or_404(Tag, name=tag)
     posts = Post.objects.filter(tags=tag)
     return render(request, 'blog/post_by_tag.html', {'posts': posts, 'tag': tag})
     def add_comment_to_post(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -138,3 +131,18 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         comment = self.get_object()
         return self.request.user == comment.author
     
+    def search_posts(request):
+    query = request.GET.get('q')
+    results = []
+    if query:
+        results = Post.objects.filter(
+            Q(title__icontains=query) |
+            Q(content__icontains=query) |
+            Q(tags__name__icontains=query)
+        ).distinct()
+    return render(request, 'blog/search_results.html', {'results': results, 'query': query})
+
+def posts_by_tag(request, tag_slug):
+    tag = get_object_or_404(Tag, slug=tag_slug)
+    posts = Post.objects.filter(tags=tag)
+    return render(request, 'blog/posts_by_tag.html', {'tag': tag, 'posts': posts})

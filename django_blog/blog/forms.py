@@ -15,10 +15,14 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['content']
-        TagWidget = {
-            'widgets': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+        widgets = {
+            'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
         }
 class PostForm(forms.ModelForm):
     class Meta:
-        model = Post
-        fields = ['title', 'content', 'tags']
+     model = Post
+     fields = ['title', 'content', 'tags']
+    widgets = {
+            'tags': TagWidget(),
+        }
+
