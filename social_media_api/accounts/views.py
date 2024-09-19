@@ -15,7 +15,7 @@ from rest_framework.response import Response
 from .models import User
 
 CustomUser = get_user_model()
-
+CustomUser.objects.all()
 class RegisterView(APIView):
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
