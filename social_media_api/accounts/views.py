@@ -7,10 +7,13 @@ from django.contrib.auth import get_user_model
 from rest_framework import status
 from .serializers import RegisterSerializer
 from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes 
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .models import User
+
 CustomUser = get_user_model()
 
 class RegisterView(APIView):
