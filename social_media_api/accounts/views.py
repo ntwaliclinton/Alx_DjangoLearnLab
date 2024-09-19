@@ -31,7 +31,8 @@ class LoginView(ObtainAuthToken):
         token = Token.objects.get(user=response.data['user_id'])
         return Response({'token': token.key})
 
-@api_view(['POST'])
+@api_view(['POST'])(generics.GenericAPIView)
+
 @permission_classes([IsAuthenticated])
 def follow_user(request, user_id):
     try:
@@ -43,7 +44,7 @@ def follow_user(request, user_id):
     return Response({'message': f'You are now following {user_to_follow.username}'}, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])(generics.GenericAPIView)
 def unfollow_user(request, user_id):
     try:
         user_to_unfollow = User.objects.get(id=user_id)
