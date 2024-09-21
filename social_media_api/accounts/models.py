@@ -5,7 +5,8 @@ class CustomUser(AbstractUser):
     bio = models.TextField(blank=True)
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True)
     followers = models.ManyToManyField('self', symmetrical=False, related_name='following')
-    following = models.ManyToManyField('self', symmetrical=False, related_name='followers', blank=True)
+    following = models.ManyToManyField('self', symmetrical=False, related_name='followers')
+
 
     def follow(self, user):
         """Follow a user."""
