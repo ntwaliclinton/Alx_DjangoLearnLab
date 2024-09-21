@@ -21,3 +21,10 @@ class RegisterSerializer(serializers.ModelSerializer):
             profile_picture=validated_data.get('profile_picture', None),
         )
         return user
+from rest_framework import serializers
+from .models import CustomUser
+
+class FollowSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'username', 'following']
