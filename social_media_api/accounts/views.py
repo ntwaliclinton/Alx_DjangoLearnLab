@@ -10,8 +10,9 @@ from django.shortcuts import get_object_or_404
 from .models import CustomUser
 from rest_framework.authtoken.views import ObtainAuthToken
 
+permissions.IsAuthenticated
 class RegisterUser(APIView):
-    permission_classes = [IsAuthenticated]
+    
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
