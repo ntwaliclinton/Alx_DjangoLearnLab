@@ -10,7 +10,7 @@ from django.shortcuts import get_object_or_404
 from .models import CustomUser
 from rest_framework.authtoken.views import ObtainAuthToken
 
-permissions.IsAuthenticated
+["permissions.IsAuthenticated"]
 class RegisterUser(APIView):
     
     def post(self, request):

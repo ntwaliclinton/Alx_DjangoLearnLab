@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Post
 from accounts.models import CustomUser
 from .serializers import PostSerializer
-
+permissions.IsAuthenticated
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
