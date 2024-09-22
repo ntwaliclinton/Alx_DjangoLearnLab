@@ -11,6 +11,7 @@ from .models import CustomUser
 from rest_framework.authtoken.views import ObtainAuthToken
 
 class RegisterUser(APIView):
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
@@ -24,7 +25,7 @@ class LoginUser(ObtainAuthToken):
     pass
 
 class FollowUserView(generics.GenericAPIView):
-    permission = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     def post(self, request, user_id):
         user_to_follow = get_object_or_404(CustomUser, id=user_id)
         if request.user == user_to_follow:
@@ -34,7 +35,7 @@ class FollowUserView(generics.GenericAPIView):
         return Response({"detail": f"You are now following {user_to_follow.username}."}, status=status.HTTP_200_OK)
 
 class UnfollowUserView(generics.GenericAPIView):
-    ppermission = [IsAuthenticated]
+    ppermission_classes = [IsAuthenticated]
     def post(self, request, user_id):
         user_to_unfollow = get_object_or_404(CustomUser, id=user_id)
         if request.user == user_to_unfollow:
