@@ -8,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from .models import CustomUser
+from rest_framework.authtoken.views import ObtainAuthToken
 
 class RegisterUser(APIView):
     def post(self, request):
@@ -19,14 +20,11 @@ class RegisterUser(APIView):
             return Response({'token': token.key})
         return Response(serializer.errors)
 
-from rest_framework.authtoken.views import ObtainAuthToken
-
 class LoginUser(ObtainAuthToken):
     pass
 
 class FollowUserView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
-
     def post(self, request, user_id):
         user_to_follow = get_object_or_404(CustomUser, id=user_id)
         if request.user == user_to_follow:
@@ -37,7 +35,6 @@ class FollowUserView(generics.GenericAPIView):
 
 class UnfollowUserView(generics.GenericAPIView):
     ppermission_classes = [IsAuthenticated]
-
     def post(self, request, user_id):
         user_to_unfollow = get_object_or_404(CustomUser, id=user_id)
         if request.user == user_to_unfollow:
