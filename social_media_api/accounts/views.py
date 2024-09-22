@@ -24,7 +24,7 @@ class LoginUser(ObtainAuthToken):
     pass
 
 class FollowUserView(generics.GenericAPIView):
-    permission_classes = [IsAuthenticated]
+    permission = [IsAuthenticated]
     def post(self, request, user_id):
         user_to_follow = get_object_or_404(CustomUser, id=user_id)
         if request.user == user_to_follow:
@@ -34,7 +34,7 @@ class FollowUserView(generics.GenericAPIView):
         return Response({"detail": f"You are now following {user_to_follow.username}."}, status=status.HTTP_200_OK)
 
 class UnfollowUserView(generics.GenericAPIView):
-    ppermission_classes = [IsAuthenticated]
+    ppermission = [IsAuthenticated]
     def post(self, request, user_id):
         user_to_unfollow = get_object_or_404(CustomUser, id=user_id)
         if request.user == user_to_unfollow:
