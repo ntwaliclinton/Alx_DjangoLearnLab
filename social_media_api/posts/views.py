@@ -39,6 +39,8 @@ class LikePostView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, pk):
+        generics.get_object_or_404(Post, pk=pk)
+        Like.objects.get_or_create(user=request.user, post=post)
         post = get_object_or_404(Post, pk=pk)
         if Like.objects.filter(user=request.user, post=post).exists():
             return Response({"detail": "You've already liked this post."}, status=status.HTTP_400_BAD_REQUEST)
@@ -60,6 +62,8 @@ class UnlikePostView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, pk):
+        generics.get_object_or_404(Post, pk=pk)
+        Like.objects.get_or_create(user=request.user, post=post)
         post = get_object_or_404(Post, pk=pk)
         like = Like.objects.filter(user=request.user, post=post).first()
         if like:
